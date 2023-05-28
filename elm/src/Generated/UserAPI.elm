@@ -61,3 +61,41 @@ getUsers toMsg =
         , tracker =
             Nothing
         }
+
+
+postUsers : User -> (Result Http.Error () -> msg) -> Cmd msg
+postUsers body toMsg =
+    let
+        params =
+            List.filterMap identity
+                (List.concat
+                    []
+                )
+    in
+    Http.request
+        { method =
+            "POST"
+        , headers =
+            []
+        , url =
+            Url.Builder.crossOrigin "http://localhost:8081"
+                [ "users"
+                ]
+                params
+        , body =
+            Http.jsonBody (jsonEncUser body)
+        , expect =
+            Http.expectString
+                (\x ->
+                    case x of
+                        Err e ->
+                            toMsg (Err e)
+
+                        Ok _ ->
+                            toMsg (Ok ())
+                )
+        , timeout =
+            Nothing
+        , tracker =
+            Nothing
+        }
