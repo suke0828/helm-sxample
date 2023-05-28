@@ -29,6 +29,7 @@ dependencies:
 - wai
 - wai-cors
 - warp
+- array
 
 ghc-options:
 - -Wall
